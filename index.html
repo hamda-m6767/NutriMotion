@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodEnergy App 🍎</title>
+  <style>
+    body {
+      background-color: #fff8e7;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #ff7b00;
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #ff7b00;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff9a33;
+    }
+
+    .result {
+      background: #ffe5b4;
+      border-radius: 10px;
+      padding: 20px;
+      display: inline-block;
+      margin-top: 20px;
+      min-width: 250px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .result.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍎 FoodEnergy App</h1>
+  <p>See how your food gives you the energy to move!</p>
+  
+  <label for="food">Choose a food:</label>
+  <select id="food">
+    <option value="100">Banana (100 cal)</option>
+    <option value="250">Chocolate Bar (250 cal)</option>
+    <option value="80">Apple (80 cal)</option>
+    <option value="400">Burger (400 cal)</option>
+  </select>
+
+  <br>
+  <button onclick="calculateEnergy()">Show Energy!</button>
+
+  <div class="result" id="resultBox" aria-live="polite"></div>
+
+  <script>
+    function calculateEnergy() {
+      const calories = parseFloat(document.getElementById('food').value);
+      const joules = calories * 4184; // 1 calorie = 4184 joules
+      const walkMinutes = Math.round(calories / 5);
+      const runMinutes = Math.round(calories / 10);
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.innerHTML = `
+        <h3>Results:</h3>
+        <p>That’s about <b>${joules.toLocaleString()}</b> joules of energy!</p>
+        <p>You could walk for around <b>${walkMinutes}</b> minutes 🏃‍♀️</p>
+        <p>Or run for about <b>${runMinutes}</b> minutes 🏃‍♂️</p>
+        <p><i>(Chemistry → Physics: food energy becomes motion energy!)</i></p>
+      `;
+
+      // Fade-in animation
+      resultBox.classList.add('show');
+    }
+  </script>
+</body>
+</html>
