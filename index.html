@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NutriMotion 🍎⚡</title>
-
   <style>
     body {
       background: #fff8f0;
@@ -18,18 +17,21 @@
       color: #ff7b7b;
     }
 
-    .food-buttons button {
+    input, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      margin: 5px;
+    }
+
+    button {
       background-color: #ffd6a5;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 20px;
-      margin: 8px;
       cursor: pointer;
-      font-size: 16px;
       transition: 0.3s;
     }
 
-    .food-buttons button:hover {
+    button:hover {
       background-color: #ffbfa3;
     }
 
@@ -40,42 +42,65 @@
       font-size: 18px;
       line-height: 1.6;
     }
-
-    input, button {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
   </style>
 </head>
 
 <body>
   <h1>🍓 Welcome to NutriMotion! 🍓</h1>
-  <p>
-    Tap a food to see how much energy it gives and how long you'd need 
-    to walk or run to burn it! ✨
-  </p>
+  <p>Type a food and find out how much energy it gives — and how long to burn it! ✨</p>
 
-  <div class="food-buttons">
-    <button onclick="showInfo('Apple', 95)">🍎 Apple</button>
-    <button onclick="showInfo('Pizza Slice', 285)">🍕 Pizza</button>
-    <button onclick="showInfo('Chocolate Bar', 230)">🍫 Chocolate</button>
-    <button onclick="showInfo('Burger', 354)">🍔 Burger</button>
-    <button onclick="showInfo('Rice Bowl', 206)">🍚 Rice</button>
-    <button onclick="showInfo('Banana', 105)">🍌 Banana</button>
-  </div>
+  <input 
+    type="text" 
+    id="foodInput" 
+    placeholder="Type a food (e.g. apple, pizza)" 
+    aria-label="Enter a food name"
+  />
+  <button onclick="findFood()">Check!</button>
 
   <p id="result" aria-live="polite"></p>
 
   <script>
-    function showInfo(food, calories) {
+    const foods = {
+      "apple": 95,
+      "banana": 105,
+      "pizza": 285,
+      "burger": 354,
+      "chocolate": 230,
+      "rice": 206,
+      "fries": 312,
+      "ice cream": 207,
+      "salad": 152,
+      "sandwich": 250,
+      "cookie": 160,
+      "milk": 122,
+      "juice": 112,
+      "egg": 78,
+      "pasta": 221,
+      "popcorn": 150
+    };
+
+    function findFood() {
+      const input = document.getElementById("foodInput");
+      const foodName = input.value.toLowerCase().trim();
+      const calories = foods[foodName];
+
+      const resultBox = document.getElementById("result");
+
+      if (!calories) {
+        resultBox.innerHTML = 
+          "😕 Sorry, I don't know that food yet! Try another one 🍪";
+        return;
+      }
+
       const joules = calories * 4184; // 1 cal = 4184 joules
-      const walkingMins = Math.round(calories / 4); // ≈4 cal/min walking
+      const walkingMins = Math.round(calories / 4);  // ≈4 cal/min walking
       const runningMins = Math.round(calories / 10); // ≈10 cal/min running
 
-      document.getElementById("result").innerHTML = `
-        🌟 <b>${food}</b> has <b>${calories}</b> calories!<br>
+      // Capitalize the food name for display
+      const formattedName = foodName.charAt(0).toUpperCase() + foodName.slice(1);
+
+      resultBox.innerHTML = `
+        🌟 <b>${formattedName}</b> has <b>${calories}</b> calories!<br>
         That’s <b>${joules.toLocaleString()}</b> joules of energy ⚡<br><br>
         You’d need to walk for <b>${walkingMins} mins</b> 🚶‍♀️<br>
         or run for <b>${runningMins} mins</b> 🏃‍♀️ to burn it!
