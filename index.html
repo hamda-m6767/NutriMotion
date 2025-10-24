@@ -3,90 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoodEnergy App 🍎</title>
+  <title>NutriMotion 🍎⚡</title>
+
   <style>
     body {
-      background-color: #fff8e7;
-      font-family: Arial, sans-serif;
+      background: #fff8f0;
+      font-family: "Comic Sans MS", sans-serif;
       text-align: center;
+      color: #444;
       padding: 30px;
     }
 
     h1 {
-      color: #ff7b00;
+      color: #ff7b7b;
     }
 
-    input, select, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-    }
-
-    button {
-      background-color: #ff7b00;
-      color: white;
+    .food-buttons button {
+      background-color: #ffd6a5;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    button:hover {
-      background-color: #ff9a33;
-    }
-
-    .result {
-      background: #ffe5b4;
       border-radius: 10px;
-      padding: 20px;
-      display: inline-block;
-      margin-top: 20px;
-      min-width: 250px;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      padding: 12px 20px;
+      margin: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
     }
 
-    .result.show {
-      opacity: 1;
+    .food-buttons button:hover {
+      background-color: #ffbfa3;
+    }
+
+    #result {
+      margin-top: 25px;
+      font-weight: bold;
+      color: #ff7b7b;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    input, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
     }
   </style>
 </head>
+
 <body>
-  <h1>🍎 FoodEnergy App</h1>
-  <p>See how your food gives you the energy to move!</p>
-  
-  <label for="food">Choose a food:</label>
-  <select id="food">
-    <option value="100">Banana (100 cal)</option>
-    <option value="250">Chocolate Bar (250 cal)</option>
-    <option value="80">Apple (80 cal)</option>
-    <option value="400">Burger (400 cal)</option>
-  </select>
+  <h1>🍓 Welcome to NutriMotion! 🍓</h1>
+  <p>
+    Tap a food to see how much energy it gives and how long you'd need 
+    to walk or run to burn it! ✨
+  </p>
 
-  <br>
-  <button onclick="calculateEnergy()">Show Energy!</button>
+  <div class="food-buttons">
+    <button onclick="showInfo('Apple', 95)">🍎 Apple</button>
+    <button onclick="showInfo('Pizza Slice', 285)">🍕 Pizza</button>
+    <button onclick="showInfo('Chocolate Bar', 230)">🍫 Chocolate</button>
+    <button onclick="showInfo('Burger', 354)">🍔 Burger</button>
+    <button onclick="showInfo('Rice Bowl', 206)">🍚 Rice</button>
+    <button onclick="showInfo('Banana', 105)">🍌 Banana</button>
+  </div>
 
-  <div class="result" id="resultBox" aria-live="polite"></div>
+  <p id="result" aria-live="polite"></p>
 
   <script>
-    function calculateEnergy() {
-      const calories = parseFloat(document.getElementById('food').value);
-      const joules = calories * 4184; // 1 calorie = 4184 joules
-      const walkMinutes = Math.round(calories / 5);
-      const runMinutes = Math.round(calories / 10);
+    function showInfo(food, calories) {
+      const joules = calories * 4184; // 1 cal = 4184 joules
+      const walkingMins = Math.round(calories / 4); // ≈4 cal/min walking
+      const runningMins = Math.round(calories / 10); // ≈10 cal/min running
 
-      const resultBox = document.getElementById('resultBox');
-      resultBox.innerHTML = `
-        <h3>Results:</h3>
-        <p>That’s about <b>${joules.toLocaleString()}</b> joules of energy!</p>
-        <p>You could walk for around <b>${walkMinutes}</b> minutes 🏃‍♀️</p>
-        <p>Or run for about <b>${runMinutes}</b> minutes 🏃‍♂️</p>
-        <p><i>(Chemistry → Physics: food energy becomes motion energy!)</i></p>
+      document.getElementById("result").innerHTML = `
+        🌟 <b>${food}</b> has <b>${calories}</b> calories!<br>
+        That’s <b>${joules.toLocaleString()}</b> joules of energy ⚡<br><br>
+        You’d need to walk for <b>${walkingMins} mins</b> 🚶‍♀️<br>
+        or run for <b>${runningMins} mins</b> 🏃‍♀️ to burn it!
       `;
-
-      // Fade-in animation
-      resultBox.classList.add('show');
     }
   </script>
 </body>
 </html>
+
